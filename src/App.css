@@ -1,0 +1,11 @@
+.App {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.title-page {
+    margin: 1em 0em 1em;
+    color: dimgray;
+}

@@ -1,11 +1,12 @@
+import React from 'react';
 import './App.css';
+import Routes from './AppRoutes';
 
-function App() {
-  return (
-    <div className="App">
-      Setydeias Painel Web 
-    </div>
-  );
+export default function App() {
+
+  return(
+    <Routes />
+  )
 }
 
-export default App;
+

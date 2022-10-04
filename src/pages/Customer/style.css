@@ -1,0 +1,14 @@
+.btn_margin_rigth {
+    margin: 1em;
+}
+
+.cursor_pointer {
+    cursor: pointer;
+}
+
+a:link, a:visited,  a:hover, a:active
+{
+    color: #0d5a5a;
+    text-decoration: none;
+    margin-left: 7px;
+}

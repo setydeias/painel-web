@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+@font-face {
+    font-family: 'Slicker';
+    src: url('../src/assets/fonts/Slicker.ttf');
+ }
+
+.required_field {
+    color: red;
+}
+
+.sty-font h1{
+    color: #1b1b58;
+    text-align: center;
+    font-family: 'Slicker', sans-serif;
+    margin-top: 60%;
+}
+
+.table_customer {
+    padding: 0.5em;
+}

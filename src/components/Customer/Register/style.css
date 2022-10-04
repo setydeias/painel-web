@@ -1,0 +1,16 @@
+.btn-margin {
+    margin: 1rem 0rem 1rem;
+}
+
+.is_whats_app {
+    margin-left: 0.8em;
+    margin-top: 1.0em ;
+}
+
+input.largerCheckbox {
+    transform : scale(1.2);
+}
+
+.total_characters_label {
+    color:grey
+}
