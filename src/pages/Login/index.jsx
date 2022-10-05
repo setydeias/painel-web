@@ -140,8 +140,8 @@ const Login = (props) => {
                  </Form>
                  <hr className='my-4 '/>  
                  <Spinner status={state.statusSpinner}/>                  
-                 {                        
-                     state.message !== '' ? (
+                 {    
+                     state.message ? (
                          <Alert color='danger'>{ state.message }</Alert>
                      ) : ''
                  }

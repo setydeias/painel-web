@@ -508,7 +508,7 @@ const Customer = () => {
 
     <div className="container-sm">
       <h4 className='title-page'>Consultar clientes</h4>
-      <Link to={"/customer/register"} type="button"><i className="fa fa-plus-circle" aria-hidden="true"></i> Novo Cliente</Link>
+      <Link to={"/customer/register"} type="button"><i className="fas fa-user-plus"></i> Novo Cliente</Link>
       <form className="table_customer" onSubmit={ filterCustomer }>
           <div className="row">
             <div className="form-group col-md-4">
