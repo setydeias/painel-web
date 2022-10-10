@@ -29,7 +29,6 @@ import {
   getCustomers
 } from '../../api/Clients/Clientes';
 
-import Menu from '../../components/Menu';
 import ModalAction from '../../components/Modal/Actions';
 import CustomerChange from '../../components/Modal/Customer/change/index';
 import Feedback from '../../components/Form/Input/Feedback';
@@ -39,10 +38,6 @@ import { Link } from 'react-router-dom';
 
 
 const Customer = () => { 
-
-  let references = {
-    document: document.getElementById('document'),
-  }
 
   const [testDocumentExist, setTestDocumentExist] = useState('');
 

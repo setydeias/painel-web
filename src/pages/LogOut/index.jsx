@@ -1,5 +1,4 @@
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../provider/auth';
+import { useState } from 'react';
 
 const LogOut = (props) => {
     
