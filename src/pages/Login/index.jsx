@@ -4,12 +4,10 @@ import { Form, FormGroup, Button, Alert } from 'reactstrap';
 import { login } from '../../api/User/Login';
 import Spinner from '../../components/Spinner';
 import Logomarca from '../../assets/imgs/logo.png';
-import { AuthContext } from '../../provider/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
 
-    const menuShow = useContext(AuthContext);
     const navigate = useNavigate();
 
     const stateDfault = {
@@ -50,7 +48,6 @@ const Login = (props) => {
                   state.statusSpinner = false;
                   localStorage.setItem('token', resp.data.access_token)
                   localStorage.setItem('description_user', resp.data.user.description_user)
-                  menuShow.setMenuShow(true);
                   navigate("/admin");
                   return;
                 }
