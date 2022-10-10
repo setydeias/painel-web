@@ -8,12 +8,8 @@ import Customer from './pages/Customer';
 import CustomerRegister from './pages/Customer/Register';
 import NotFound from './pages/NotFound';
 import Menu from './components/Menu';
-import { AuthContext } from './provider/auth';
-//import { AuthProvider } from './contexts/auth';
 
 const AppRoutes = () => {
-
-  const menuShow = useContext(AuthContext);
 
   return (  
     <Router>
