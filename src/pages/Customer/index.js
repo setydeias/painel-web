@@ -34,7 +34,7 @@ import CustomerChange from '../../components/Modal/Customer/change/index';
 import Feedback from '../../components/Form/Input/Feedback';
 import MySelect from '../../components/Form/Input/Select';
 import { Link } from 'react-router-dom';
-
+import { CustomerContextProvider } from '../../Contexts/Customer/CustomerContext';
 
 
 const Customer = () => { 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, useContext }from 'react';
 import { 
     formatDate,
     testAge,
@@ -18,29 +18,12 @@ import {
 } from '../../../utilities/masks';
 import {getTreatmentMasculine, getTreatmentFemale  } from '../../../data/treatment';
 import { getRegionCpf } from '../../../data/cpf_fiscal_region';
-
+import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 
 const PersonData = (props) => { 
     
-    const dataDefault = {
-        erro: 'Campo obrigatório!',
-        validate: 'form-control'
-    } 
+  const { formStatus, setFormStatus } = useContext(CustomerContext);
     
-    const statusFormDefault =  {
-        document_type: dataDefault,
-        document: dataDefault,
-        cnae: dataDefault,
-        description: dataDefault,
-        fantasy_name: dataDefault,
-        date: dataDefault,  
-        sexo: dataDefault,
-        treatment: dataDefault,
-        usual_name: dataDefault
-    }
-    
-    const [formStatus, setFormStatus] = useState(()=>statusFormDefault);
-
     var references = {
         document_type: document.getElementById('document_type'),   
         cnae: document.getElementById('cnae'),   

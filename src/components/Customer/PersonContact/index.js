@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { 
   noMask, 
   maskTelefone,
@@ -8,30 +8,14 @@ import {
     isValidEMail,
     testValidPhone,
     isSite,
-  } from '../../../utilities/Utilities';
+} from '../../../utilities/Utilities';
+
+import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
+
 
 const PersonContact = (props) => { 
 
-    const dataDefault = {
-      erro: 'Campo obrigatório!',
-      validate: 'form-control'
-    } 
-
-    const statusFormDefault =  {
-      phone_number1: dataDefault,
-      whats_app_phone1: dataDefault,
-      phone_number2: dataDefault,
-      whats_app_phone2: dataDefault,
-      phone_number3: dataDefault,
-      whats_app_phone3: dataDefault,
-      email1: dataDefault,
-      email2: dataDefault,
-      site: dataDefault,
-      facebook: dataDefault,
-      instagram: dataDefault
-    }
-    
-    const [formStatus, setFormStatus] = useState(()=>statusFormDefault);
+    const { formStatus, setFormStatus } = useContext(CustomerContext);
 
     var references = {
       site: document.getElementById('site'),    

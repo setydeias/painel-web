@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { setAddress } from '../../../data/address_typr_variations'; 
 import { 
     isValibCep, 
@@ -11,27 +11,11 @@ import {
   setMaskCep
 } from '../../../utilities/masks';
 import { getCep } from '../../../api/Correios/Services';
+import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 
 const PersonAddress = (props) => { 
 
-    const dataDefault = {
-        erro: 'Campo obrigatório!',
-        validate: 'form-control'
-    } 
-
-    const statusFormDefault =  {
-        address_type: dataDefault,
-        address: dataDefault,
-        address_number: dataDefault, 
-        city: dataDefault,
-        uf: dataDefault,
-        address_complement: dataDefault,   
-        district: dataDefault,
-        cep: dataDefault,
-        address_caracters: dataDefault
-    }
-
-    const [formStatus, setFormStatus] = useState(()=>statusFormDefault);
+    const { formStatus, setFormStatus } = useContext(CustomerContext);
 
     var references = {
         address: document.getElementById('address'),
@@ -104,12 +88,9 @@ const PersonAddress = (props) => {
           address: {
             erro: '',
             validate: 'form-control is-valid',
-            complement: 'Complemento: { ' + resp.data.complemento + ' }',
+            //complement: 'Complemento: { ' + resp.data.complemento + ' }',
             feedback: 'valid-feedback'
-          }
-        });
-  
-        setFormStatus({...formStatus, 
+          },
           cep: {
             erro: '',
             validate: 'form-control is-valid'
@@ -134,8 +115,7 @@ const PersonAddress = (props) => {
             erro: '',
             validate: 'form-control is-valid'
           }
-        });
-  
+        });  
         
         props.setCustomer({ ...props.customer,
          ...{ city: resp.data.localidade, 
@@ -181,12 +161,12 @@ const PersonAddress = (props) => {
     }
 
     const testAddressCaracters = () => {
- 
+            
         if (!totalCaracters(
-          props.customer.address_type.trim() + " " +
-          props.customer.address.trim() + " " +
-          props.customer.address_number.trim() + " " +
-          props.customer.address_complement.trim() + " " +
+          props.customer.address_type.trim() +
+          props.customer.address.trim() +
+          props.customer.address_number.trim() +
+          props.customer.address_complement.trim() +
           props.customer.district.trim(), 
           56      
         )) {
@@ -216,8 +196,6 @@ const PersonAddress = (props) => {
               validate: 'form-control is-invalid'
             }
           });
-        
-          references.total_characters.focus();
           return false;
         }
         setFormStatus({...formStatus, 

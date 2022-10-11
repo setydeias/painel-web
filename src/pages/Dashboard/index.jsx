@@ -7,7 +7,7 @@ const Dashboard = () => {
 
   return(
     <CustomerContextProvider>
-     <Test />
+     <Test test={ 'test' } />
     </CustomerContextProvider>
   )
 }

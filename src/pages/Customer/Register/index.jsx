@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../../styles.css';
 import RegisterCustumer from '../../../components/Customer/Register';
+import { CustomerContextProvider } from '../../../Contexts/Customer/CustomerContext';
 
 const CustomerRegister = (props) => {
   
@@ -15,12 +16,14 @@ const CustomerRegister = (props) => {
   }, [])
 
   return(
-    <RegisterCustumer 
-      action={ action } 
-      setAction={setAction} 
-      document={testDocumentExist} 
-      setTestDocumentExist={ setTestDocumentExist } 
-    />
+    <CustomerContextProvider>
+      <RegisterCustumer 
+        action={ action } 
+        setAction={setAction} 
+        document={testDocumentExist} 
+        setTestDocumentExist={ setTestDocumentExist } 
+      />
+    </CustomerContextProvider>
   )
 }
 export default CustomerRegister;

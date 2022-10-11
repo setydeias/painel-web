@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './style.css';
 import { clearForm, formatDate } from '../../../utilities/Utilities';
 import PersonData from '../PersonData';
@@ -13,17 +13,16 @@ import {
   updateCustomer 
 } from '../../../api/Clients/Clientes';
 import ModalAlert from '../../Modal/Alert';
+import { setFormStatus, CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 
 
 const RegisterCostumer = (props) => { 
     
   const [isSubmit, setIsSubmit] = useState(false);
- 
-  var references = {
-    document: document.getElementById('document'),
-  }
-
   const [spinner, setSpinner] = useState(() => false);
+
+  const { setFormStatus, statusFormDefault } = useContext(CustomerContext);
+
 
     const customerDefault = {
         id: '',
@@ -132,8 +131,7 @@ const RegisterCostumer = (props) => {
               texto: response.data.message,
               acao1: 'OK'
           })
-          //setFormStatus(statusFormDefault); ver como trazer para o container este container.
-          references.document.focus();
+          setFormStatus(statusFormDefault);
           clearForm();
         }
         return ; 
@@ -184,7 +182,7 @@ const RegisterCostumer = (props) => {
               texto: response.data.message,
               acao2: 'OK'
           })
-          //setFormStatus(statusFormDefault); ver como trazer para o container este container.
+          setFormStatus(statusFormDefault); 
         }
 
         return;
@@ -204,9 +202,8 @@ const RegisterCostumer = (props) => {
     const btnClear = () => { 
 
       clearForm();
-      //setFormStatus(()=>statusFormDefault);
+      setFormStatus(()=>statusFormDefault);
       setCustomer(customerDefault);
-      references.document.focus();
     }
 
     const testDcumentExists =  async () => { 
@@ -279,7 +276,7 @@ const RegisterCostumer = (props) => {
             testDcumentExists={ testDcumentExists }
             action={ props.action }
             document={ props.document}
-          />
+            />
           <PersonAddress 
             customer={  customer  }
             setCustomer={ setCustomer }
