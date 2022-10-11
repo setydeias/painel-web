@@ -13,7 +13,7 @@ import {
   updateCustomer 
 } from '../../../api/Clients/Clientes';
 import ModalAlert from '../../Modal/Alert';
-import { setFormStatus, CustomerContext } from '../../../Contexts/Customer/CustomerContext';
+import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 
 
 const RegisterCostumer = (props) => { 
@@ -268,7 +268,7 @@ const RegisterCostumer = (props) => {
 
   return(
     <div className='container-sm'>
-      { props.action === 'change' ? <h4 className='title-page'>Alterar Cliente</h4> : <h4 className='title-page'>Cadastrar Cliente</h4> } 
+      { props.action === 'change' ? '' : <h4 className='title-page'>Cadastrar Cliente</h4> } 
       <form className='row' onSubmit={handleSubmit}>  
           <PersonData 
             customer={ customer  }

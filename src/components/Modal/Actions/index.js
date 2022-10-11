@@ -11,7 +11,7 @@ const ModalActions = ({ modal, toggle, change, remove, data }) => {
 
   return (
     <div>     
-      <Modal isOpen={modal.modal} toggle={toggle} className="modal-dialog modal-lg">
+      <Modal isOpen={modal.modal} toggle={toggle} className="modal-dialog">
         <ModalHeader toggle={toggle}>{modal.titulo}Detalhes</ModalHeader>
         <ModalBody>
           <PersonDetails data={data} />
