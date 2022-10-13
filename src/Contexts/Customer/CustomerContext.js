@@ -4,8 +4,6 @@ export const CustomerContext = createContext()
 
 export const CustomerContextProvider = (props) => {
     
-    const [menuShow, setMenuShow ] = useState('TESTE')
-
     const dataDefault = {
         erro: 'Campo obrigatório!',
         validate: 'form-control'
