@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useRef, useState }  from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 import logImg from '../img/logo.png';
@@ -9,16 +9,17 @@ import { login } from '../../api/User/Login';
 
 const Menu = () => {
 
+    const Ref = useRef(null);
     const [navItems, setNavItems] = useState([]);
     const [collapse, setCollapse] = useState("nav__menu");
     const [toggleIcon, setToggleIcon] = useState("toggler__icon");
 
-    const [sectionTime, setSectionTime] = useState('')
+    const [timer, setTimer] = useState('00:00:00');
 
     const modalDefault = { 
       modal: false, 
       titulo: 'Atenção!', 
-      texto: 'A seção irá expirar em:' + sectionTime + 'segundos. Deseja continuar?', 
+      texto: 'A seção irá expirar em:' + timer + 'segundos. Deseja continuar?', 
       acao1: 'Sim', 
       acao2: 'Não' 
     }
@@ -30,22 +31,23 @@ const Menu = () => {
         setNavItems(getTopNav());
     }, [])
     
-    useEffect(() => {
-
-      startSessionTime(false);    
-
+  useEffect(() => {
+    clearTimer(getDeadTime());
   }, []);
 
   useEffect(() => {
 
-    if (sectionTime === '00:30') {
+    if (timer === '00:00:30') {
       setModal({...modal, modal: true});
+      return;
     }
-    if (sectionTime === '00:00') {
+    if (timer === '00:00:01') {
       window.location.href ='/logout';
+      return;
     }
-  }, [sectionTime]);
-
+    
+  }, [timer]);
+   
   const onToggle = () => {
      collapse === "nav__menu"
          ? setCollapse("nav__menu nav__collapse")
@@ -55,31 +57,56 @@ const Menu = () => {
          : setToggleIcon("toggler__icon");
   };
 
+  const getTimeRemaining = (e) => {
+    const total = Date.parse(e) - Date.parse(new Date());
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / 1000 * 60 * 60) % 24);
+    return {
+        total, hours, minutes, seconds
+    };
+  }
 
-  const startSessionTime = (reset) => {
+  const startTimer = (e) => {
+    let { total, hours, minutes, seconds } 
+                = getTimeRemaining(e);
+    if (total >= 0) {
+        setTimer(
+            (hours > 9 ? hours : '0' + hours) + ':' +
+            (minutes > 9 ? minutes : '0' + minutes) + ':'
+            + (seconds > 9 ? seconds : '0' + seconds)
+        )
+    }
+  }
 
-    var duration = 60 *  30;
-    var timer = duration, minutes, seconds;
-
-    var meuInterval = setInterval(function() {
+  const clearTimer = (e) => {
   
-      minutes =  parseInt(timer / 60, 10);
-      seconds =  parseInt(timer % 60, 10);
-     
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-      
-      setSectionTime(minutes + ":" + seconds);
-      
-      if (reset) {        
-        clearInterval(meuInterval);
-        return;
-      }
+    // If you adjust it you should also need to
+    // adjust the Endtime formula we are about
+    // to code next    
+    setTimer('00:00:00');
 
-      if(--timer < 0) {
-        timer = duration;
-      }
-    }, 1000);
+    // If you try to remove this line the 
+    // updating of timer Variable will be
+    // after 1000ms or 1sec
+    if (Ref.current) clearInterval(Ref.current);
+    const id = setInterval(() => {
+        startTimer(e);
+    }, 1000)
+    Ref.current = id;
+  }
+
+  const getDeadTime = () => {
+    let deadline = new Date();
+
+    // This is where you need to adjust if 
+    // you entend to add more time
+    deadline.setMinutes(deadline.getMinutes() + 1);
+    return deadline;
+  }
+
+  const onClickReset = () => {
+    clearTimer(getDeadTime());
   }
 
   const resetSession = async () => {
@@ -92,7 +119,7 @@ const Menu = () => {
         localStorage.setItem('token', resp.data.access_token);
         localStorage.setItem('description_user', resp.data.user.description_user);
         setModal({...modal, modal: false});
-        startSessionTime(true);
+        onClickReset();
         return;
       }
     }            
@@ -135,7 +162,7 @@ const Menu = () => {
             </nav>
           </div>
       </div>
-      <label style={{color: 'GrayText', marginLeft: '5px'}}>Sessão: <span id='timerSession'> { sectionTime } </span></label>
+      <label style={{color: 'GrayText', marginLeft: '5px'}}>Sessão: <span id='timerSession'> { timer } </span></label>
       <ModalSection 
           modal={modal} toggle={toggle}
           resetSession={resetSession}
