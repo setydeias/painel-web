@@ -15,7 +15,7 @@ const Menu = () => {
     const [toggleIcon, setToggleIcon] = useState("toggler__icon");
 
     const [timer, setTimer] = useState('00:00:00');
-
+    
     const modalDefault = { 
       modal: false, 
       titulo: 'Atenção!', 
@@ -23,7 +23,7 @@ const Menu = () => {
       acao1: 'Sim', 
       acao2: 'Não' 
     }
-  
+
     const [modal, setModal] = useState(modalDefault);
     const toggle = () => setModal(!modal);
 
@@ -80,15 +80,7 @@ const Menu = () => {
   }
 
   const clearTimer = (e) => {
-  
-    // If you adjust it you should also need to
-    // adjust the Endtime formula we are about
-    // to code next    
     setTimer('00:00:00');
-
-    // If you try to remove this line the 
-    // updating of timer Variable will be
-    // after 1000ms or 1sec
     if (Ref.current) clearInterval(Ref.current);
     const id = setInterval(() => {
         startTimer(e);
@@ -98,10 +90,7 @@ const Menu = () => {
 
   const getDeadTime = () => {
     let deadline = new Date();
-
-    // This is where you need to adjust if 
-    // you entend to add more time
-    deadline.setMinutes(deadline.getMinutes() + 1);
+    deadline.setMinutes(deadline.getMinutes() + 30);
     return deadline;
   }
 
