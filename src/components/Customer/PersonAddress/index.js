@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { setAddress } from '../../../data/address_typr_variations'; 
 import { 
     isValibCep, 
-    isValidUf, 
     totalCaracters,
   } from '../../../utilities/Utilities';
 import { 
@@ -16,11 +15,16 @@ import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 const PersonAddress = (props) => { 
 
     const { formStatus, setFormStatus } = useContext(CustomerContext);
+    const [cepTest, setCepTest] = useState();
 
     var references = {
+        cep: document.getElementById('cep'),
+        city: document.getElementById('city'),
+        uf: document.getElementById('uf'),
+        address_type: document.getElementById('address_type'),
         address: document.getElementById('address'),
         address_number: document.getElementById('address_number'),   
-        total_characters: document.getElementById('total_characters')
+        total_characters: document.getElementById('total_characters'),
     }
     
     
@@ -63,44 +67,104 @@ const PersonAddress = (props) => {
     ])
 
 
+    useEffect(() => {
+      if (total_characters_adress > 0) {
+        testAddressCaracters();
+      }
+    }, [total_characters_adress])
+
+    
     const searchCep = async (e) => { 
 
         if(testCep()) {    
-          const resp = await getCep(noMask(e.target.value));          
-          setCep(resp);  
-          testAddressCaracters();                 
+          
+          const resp = await getCep(noMask(e.target.value)); 
+          if(resp.status === 200 && !resp.data.erro) {
+
+            const logradouro_split = resp.data.logradouro.split(' ', 1);  
+
+            props.setCustomer((prevState) => ({ ...prevState,
+              ...{ 
+                  city: resp.data.localidade, 
+                  uf: resp.data.uf,
+                  district: resp.data.bairro,
+                  address: setAddress(resp.data.logradouro),
+                  address_type: logradouro_split[0]
+                 }
+            }));         
+            references.city.focus();
+            validCep(resp);
+          }
+          
+          if (resp.data.erro) {
+            setFormStatus({...formStatus, 
+              cep: {
+                erro: 'Não encontrado!',
+                validate: 'form-control is-invalid'
+              }
+            })
+          }        
         }
     }
 
-    const setCep = (resp) => { 
-      
-      if(resp.status === 200 && !resp.data.erro) { 
-    
-        const logradouro_split = resp.data.logradouro.split(' ', 1);
-        
-        document.getElementById('city').value = resp.data.localidade;
-        document.getElementById('uf').value = resp.data.uf;
-        document.getElementById('district').value = resp.data.bairro;
-        document.getElementById('address').value = setAddress(resp.data.logradouro); 
-        document.getElementById('address_type').value = logradouro_split[0];
+    const validCep = (resp) => {
 
-        props.setCustomer({ ...props.customer,
-         ...{ city: resp.data.localidade, 
-              uf: resp.data.uf,
-              district: resp.data.bairro,
-              address: setAddress(resp.data.logradouro),
-              address_type: logradouro_split[0]
-            }
-        });
+      setFormStatus({...formStatus, 
+        cep: {
+          erro: '',
+          validate: 'form-control is-valid',
+        },
+        city: {
+          erro: '',
+          validate: 'form-control is-valid',
+        },
+        uf: {
+          erro: '',
+          validate: 'form-control is-valid',
+        },
+        address_type: {
+          erro: '',
+          validate: 'form-control is-valid',
+        },
+        address: {
+          erro: '',
+          validate: 'form-control is-valid',
+          complement: 'Complemento: { ' + resp.data.complemento + ' }',
+          feedback: 'valid-feedback'
+        },
+        district: {
+          erro: '',
+          validate: 'form-control is-valid',
+        }        
+      });    
+
+      var address_number_interval = setInterval(function() {
         references.address_number.focus();
-        testAddressCaracters(); 
-      }
+        clearInterval(address_number_interval);
+      }, 100);
     }
 
     const testCep = () => {
 
-      if (!props.customer.cep) {      
-        
+      if (props.customer.cep) {   
+
+        if (!isValibCep(props.customer.cep)) {
+          setFormStatus({...formStatus, 
+            cep: {
+              erro: 'CEP inválido!',
+              validate: 'form-control is-invalid'
+            }
+          });
+          return false;
+        }
+        setFormStatus({...formStatus, 
+          cep: {
+            erro: '',
+            validate: 'form-control is-valid'
+          }
+        });      
+        return true;
+      } else {
         setFormStatus({...formStatus, 
           cep: {
             erro: 'Campo obrigatório!',
@@ -109,22 +173,6 @@ const PersonAddress = (props) => {
         });
         return false;
       } 
-      if (!isValibCep(props.customer.cep)) {
-        setFormStatus({...formStatus, 
-          cep: {
-            erro: 'CEP inválido!',
-            validate: 'form-control is-invalid'
-          }
-        });
-        return false;
-      }
-      setFormStatus({...formStatus, 
-        cep: {
-          erro: '',
-          validate: 'form-control is-valid'
-        }
-      });      
-      return true;
     }
 
     const testAddressCaracters = () => {
@@ -194,19 +242,9 @@ const PersonAddress = (props) => {
         return true;
     }
 
-    const testCity = () => {
-      
-      console.log(props.customer.city);
-      
-      if (!props.customer.city) {
-          setFormStatus({...formStatus, 
-            city: {
-              erro: 'Campo obrigatório!',
-              validate: 'form-control is-invalid'
-            }
-          });
-          return false;
-        }
+    const testCity = () => {      
+
+      if (props.customer.city) {
         setFormStatus({...formStatus, 
           city: {
             erro: '',
@@ -215,21 +253,20 @@ const PersonAddress = (props) => {
         });
         return true;
       }
+      setFormStatus({...formStatus, 
+        city: {
+          erro: 'Campo obrigatório!',
+          validate: 'form-control is-invalid'
+        }
+      });
+      return false;
+    }
     
       const testUf = () => {
         if (!props.customer.uf) {
           setFormStatus({...formStatus, 
             uf: {
               erro: 'Campo obrigatório!',
-              validate: 'form-control is-invalid'
-            }
-          });
-          return false;
-        }
-        if (!isValidUf(props.customer.uf)) {
-          setFormStatus({...formStatus, 
-            uf: {
-              erro: 'UF inválido!',
               validate: 'form-control is-invalid'
             }
           });
@@ -260,7 +297,6 @@ const PersonAddress = (props) => {
             validate: 'form-control is-valid'
           }
         });
-        testAddressCaracters();
         return true;
       }
     
@@ -280,7 +316,6 @@ const PersonAddress = (props) => {
             validate: 'form-control is-valid'
           }
         });
-        testAddressCaracters();
         return true;
       }
     
@@ -305,7 +340,6 @@ const PersonAddress = (props) => {
             validate: 'form-control is-valid'
           }
         });
-        testAddressCaracters();
         return true;
       }
     
@@ -325,12 +359,7 @@ const PersonAddress = (props) => {
             validate: 'form-control is-valid'
           }
         });
-        testAddressCaracters();
         return true;
-      }
-    
-      const testAddressComplement = () => {
-        testAddressCaracters();
       }
     
 
@@ -342,6 +371,7 @@ const PersonAddress = (props) => {
               <input 
                 type="text" 
                 className={formStatus.cep.validate} 
+                id="cep"
                 name="cep" 
                 value={ setMaskCep(props.customer.cep) }
                 onChange={handleChangeMaskCep}
@@ -360,7 +390,7 @@ const PersonAddress = (props) => {
                 className={formStatus.city.validate} 
                 name="city" 
                 id='city'   
-                value={ props.customer.city }            
+                value={ props.customer.city  }            
                 onChange={handleChange}
                 onBlur={testCity}
                 required  
@@ -448,9 +478,7 @@ const PersonAddress = (props) => {
                 id='address_type'
                 value={ props.customer.address_type }
                 onChange={handleChange}
-                onBlur={
-                  testTypeAddress
-                }
+                onBlur={testTypeAddress}
                 required  
               >
                  <optgroup label="Tipos de Logradouro">
@@ -523,8 +551,7 @@ const PersonAddress = (props) => {
                 placeholder='Endereço'
               />
               <div className={formStatus.address.complement ? 'valid-feedback' : 'invalid-feedback'}>
-                { formStatus.address.erro }
-                { formStatus.address.complement }
+                { formStatus.address.complement ? formStatus.address.complement : formStatus.address.erro }
               </div>
             </div>
             <div className="col-md-2 mb-3">
@@ -561,7 +588,6 @@ const PersonAddress = (props) => {
                 id="address_complement" 
                 value={ props.customer.address_complement }
                 onChange={handleChange}
-                onBlur={testAddressComplement}
                 placeholder='Bloco, Apto, Condomínio, Ponto de referência ...'
               />
               <div className="invalid-feedback">

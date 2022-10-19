@@ -280,6 +280,7 @@ const RegisterCostumer = (props) => {
           <PersonAddress 
             customer={  customer  }
             setCustomer={ setCustomer }
+            action={ props.action }
           />
           <PersonContact 
             customer={  customer  }

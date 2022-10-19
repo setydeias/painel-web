@@ -36,9 +36,9 @@ import MySelect from '../../components/Form/Input/Select';
 import { Link } from 'react-router-dom';
 import { CustomerContextProvider } from '../../Contexts/Customer/CustomerContext';
 
-
 const Customer = () => { 
-
+  
+  const [textOption, setTextOption] = useState(false);
   const [testDocumentExist, setTestDocumentExist] = useState('');
 
   const [list, setList] = useState([]);
@@ -391,6 +391,7 @@ const Customer = () => {
           title: 'Informação: ',
           message: resp.data.message
         }); 
+        setTextOption(false);
         closeFeedBack();       
       }                
 
@@ -578,6 +579,8 @@ const Customer = () => {
         change={change}
         remove={removeCustomer}
         data={customer_changer}
+        textOption={textOption}
+        setTextOption={setTextOption}
         />
       <Feedback feedBack={feedBack} />
     </div>       

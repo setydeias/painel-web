@@ -3,11 +3,9 @@ import './style.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PersonDetails from '../../Customer/PersonDetails';
 
-const ModalActions = ({ modal, toggle, change, remove, data }) => {
-
-  const [textOption, setTextOption] = useState(false);
+const ModalActions = ({ modal, toggle, change, remove, data, textOption, setTextOption }) => {
+  
   const toggleTextOption = () => setTextOption(!textOption);
-
 
   return (
     <div>     

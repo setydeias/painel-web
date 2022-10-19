@@ -176,7 +176,7 @@ const PersonData = (props) => {
 
 
     const testDocumentType = () => {
-        if (!references.document_type.value) {
+        if (!props.customer.document_type) {
           setFormStatus({...formStatus, 
             document_type: {
               erro: 'Campo obrigatório!',
