@@ -15,7 +15,6 @@ import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 const PersonAddress = (props) => { 
 
     const { formStatus, setFormStatus } = useContext(CustomerContext);
-    const [cepTest, setCepTest] = useState();
 
     var references = {
         cep: document.getElementById('cep'),
