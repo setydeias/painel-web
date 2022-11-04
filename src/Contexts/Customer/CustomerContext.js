@@ -10,6 +10,12 @@ export const CustomerContextProvider = (props) => {
     } 
     
     const statusFormDefault =  {
+        name_application_bb: dataDefault,
+        id_application_bb: dataDefault,
+        developer_application_key: dataDefault,
+        client_id: dataDefault,
+        client_secret: dataDefault,
+        basic_copy: dataDefault,
         document_type: dataDefault,
         document: dataDefault,
         cnae: dataDefault,

@@ -14,6 +14,7 @@ import {
 } from '../../../api/Clients/Clientes';
 import ModalAlert from '../../Modal/Alert';
 import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
+import PersonBankData from '../PersonBankData';
 
 
 const RegisterCostumer = (props) => { 
@@ -269,49 +270,66 @@ const RegisterCostumer = (props) => {
   return(
     <div className='container-sm'>
       { props.action === 'change' ? '' : <h4 className='title-page'>Cadastrar Cliente</h4> } 
+      <nav>
+        <div className="nav nav-tabs d-flex justify-content-start" id="nav-tab" role="tablist">
+          <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fas fa-user"></i> Dados Pessoal</button>
+          <button className="nav-link" id="nav-bank-data-tab" data-bs-toggle="tab" data-bs-target="#nav-bank-data" type="button" role="tab" aria-controls="nav-bank-data" aria-selected="false"><i class="fas fa-university"></i> Dados bacários</button>
+          <button className="nav-link" id="nav-api-tab" data-bs-toggle="tab" data-bs-target="#nav-api" type="button" role="tab" aria-controls="nav-api" aria-selected="false"><i class="fas fa-sitemap"></i> Dados da API no BB</button>
+        </div>
+      </nav>
       <form className='row' onSubmit={handleSubmit}>  
-          <PersonData 
-            customer={ customer  }
-            setCustomer={ setCustomer }
-            testDcumentExists={ testDcumentExists }
-            action={ props.action }
-            document={ props.document}
+        <div className="tab-content" id="nav-tabContent">
+          <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            <PersonData 
+              customer={ customer  }
+              setCustomer={ setCustomer }
+              testDcumentExists={ testDcumentExists }
+              action={ props.action }
+              document={ props.document}
+             />
+            <PersonAddress 
+              customer={  customer  }
+              setCustomer={ setCustomer }
+              action={ props.action }
             />
-          <PersonAddress 
-            customer={  customer  }
-            setCustomer={ setCustomer }
-            action={ props.action }
-          />
-          <PersonContact 
-            customer={  customer  }
-            setCustomer={ setCustomer }
-          />
-          <PersonNotes 
-            customer={  customer  }
-            setCustomer={ setCustomer }
-          />    
-          <div className="row" >            
-            <div className="d-grid gap-2">
-              <button 
-                className="btn btn-margin" 
-                style={{'background': '#008080', 'color': '#fff'}}
-                type="submit"
-                >
-                  { props.spinner === true ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" style={{marginRight: '5px'}}> </span> : ''} 
-                  { props.action === 'change' ? 'Alterar' : 'Cadastrar' }
-              </button>
-            </div>
-            <div className="d-grid gap-2">
-              <button 
-                className="btn btn-margin" 
-                style={{'background': '#008080', 'color': '#fff'}}
-                type="button"
-                onClick={ btnClear }
-                >
-                Limpar formulário
-              </button>
-            </div>     
+            <PersonContact 
+              customer={  customer  }
+              setCustomer={ setCustomer }
+            />
+            <PersonNotes 
+              customer={  customer  }
+              setCustomer={ setCustomer }
+            />    
           </div>
+          <div className="tab-pane fade" id="nav-api" role="tabpanel" aria-labelledby="nav-api-tab" tabindex="0">
+            <PersonBankData 
+              customer={  customer  }
+              setCustomer={ setCustomer }
+            />
+          </div>
+        </div>          
+        <div className="row" >            
+          <div className="d-grid gap-2">
+            <button 
+              className="btn btn-margin" 
+              style={{'background': '#008080', 'color': '#fff'}}
+              type="submit"
+              >
+                { props.spinner === true ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" style={{marginRight: '5px'}}> </span> : ''} 
+                { props.action === 'change' ? 'Alterar' : 'Cadastrar' }
+            </button>
+          </div>
+          <div className="d-grid gap-2">
+            <button 
+              className="btn btn-margin" 
+              style={{'background': '#008080', 'color': '#fff'}}
+              type="button"
+              onClick={ btnClear }
+              >
+              Limpar formulário
+            </button>
+          </div>     
+        </div>
       </form>
       <ModalContirm 
         modal={modal} 

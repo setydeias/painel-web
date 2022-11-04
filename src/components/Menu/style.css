@@ -105,3 +105,8 @@ li {
 .toggle .line__3 {
   transform: translate(-5px, -7px) rotate(45deg);
 }
+
+.session {
+  color: gray;
+  margin-right: 15px;
+}

@@ -14,3 +14,7 @@ input.largerCheckbox {
 .total_characters_label {
     color:grey
 }
+
+.row {
+    margin-top: 0.5rem;
+}

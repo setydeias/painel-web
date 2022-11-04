@@ -151,7 +151,7 @@ const Menu = () => {
             </nav>
           </div>
       </div>
-      <label style={{color: 'GrayText', marginLeft: '5px'}}>Sessão: <span id='timerSession'> { timer } </span></label>
+      <label className='d-flex justify-content-end session'>Sessão: <span id='timerSession'> { timer } </span></label>
       <ModalSection 
           modal={modal} toggle={toggle}
           resetSession={resetSession}
