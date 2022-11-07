@@ -15,6 +15,7 @@ import {
 import ModalAlert from '../../Modal/Alert';
 import { CustomerContext } from '../../../Contexts/Customer/CustomerContext';
 import PersonBankData from '../PersonBankData';
+import PersonBankCredentials from '../PersonBankCredentials';
 
 
 const RegisterCostumer = (props) => { 
@@ -27,6 +28,9 @@ const RegisterCostumer = (props) => {
 
     const customerDefault = {
         id: '',
+        bank: '',
+        bank_agency: '',
+        bank_number_account: '',
         name_application_bb: null,
         id_application_bb: null,
         developer_application_key: null,
@@ -301,8 +305,14 @@ const RegisterCostumer = (props) => {
               setCustomer={ setCustomer }
             />    
           </div>
-          <div className="tab-pane fade" id="nav-api" role="tabpanel" aria-labelledby="nav-api-tab" tabindex="0">
+          <div className="tab-pane fade" id="nav-bank-data" role="tabpanel" aria-labelledby="nav-bank-data-tab" tabindex="0">
             <PersonBankData 
+              customer={  customer  }
+              setCustomer={ setCustomer }
+            />
+          </div>
+          <div className="tab-pane fade" id="nav-api" role="tabpanel" aria-labelledby="nav-api-tab" tabindex="0">
+            <PersonBankCredentials 
               customer={  customer  }
               setCustomer={ setCustomer }
             />

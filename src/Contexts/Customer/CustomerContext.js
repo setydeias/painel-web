@@ -10,6 +10,9 @@ export const CustomerContextProvider = (props) => {
     } 
     
     const statusFormDefault =  {
+        bank: dataDefault,
+        bank_agency: dataDefault,
+        bank_number_account: dataDefault,
         name_application_bb: dataDefault,
         id_application_bb: dataDefault,
         developer_application_key: dataDefault,
