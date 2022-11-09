@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import './style.css';
 import { CustomerContext } from "../../../Contexts/Customer/CustomerContext";
 
 const PersonBankData = (props) => {
@@ -14,8 +15,8 @@ const PersonBankData = (props) => {
     return(
       <>
         <div className="row">
-          <div className="col-md-3 mb-3">
-            <label>Banco da conta cródito<span className='required_field'> *</span></label>
+          <div className="col-md-2 mb-3">
+            <label>Conta crédito<span className='required_field'> *</span></label>
             <select 
               type="text" 
               className={formStatus.bank.validate} 
@@ -34,7 +35,7 @@ const PersonBankData = (props) => {
               { formStatus.id_application_bb.erro } 
             </div>
           </div>
-          <div className="col-md-3 mb-3">
+          <div className="col-md-2 mb-3">
             <label>Agência<span className='required_field'> *</span></label>
             <input 
               type="text" 
@@ -46,13 +47,14 @@ const PersonBankData = (props) => {
               onBlur=''
               required  
               placeholder=''
+              maxLength={8}
               />
             <div className="invalid-feedback">
               { formStatus.bank.bank_agency } 
             </div>
           </div>    
-          <div className="col-md-3 mb-3">
-            <label>Número da conta<span className='required_field'> *</span></label>
+          <div className="col-md-2 mb-3">
+            <label>Nº da conta<span className='required_field'> *</span></label>
             <input 
               type="text" 
               className={formStatus.bank_number_account.validate} 
@@ -63,14 +65,13 @@ const PersonBankData = (props) => {
               onBlur=''
               required  
               placeholder=''
+              maxLength={12}
               />
             <div className="invalid-feedback">
               { formStatus.bank_number_account.erro } 
             </div>
-          </div>                           
-        </div>
-        <div className="row">  
-          <div className="col-md-3 mb-3">
+          </div>
+          <div className="col-md-2 mb-3">
             <label>Convênio<span className='required_field'> *</span></label>
             <input 
               type="text" 
@@ -82,12 +83,13 @@ const PersonBankData = (props) => {
               onBlur=''
               required  
               placeholder=''
+              maxLength={7}
               />
             <div className="invalid-feedback">
               { formStatus.number_convenio.erro } 
             </div>
           </div>        
-          <div className="col-md-3 mb-3">
+          <div className="col-md-2 mb-3">
             <label>Nº Carteira<span className='required_field'> *</span></label>
             <input 
               type="text" 
@@ -104,7 +106,7 @@ const PersonBankData = (props) => {
               { formStatus.number_wallet.erro } 
             </div>
           </div>
-          <div className="col-md-3 mb-3">
+          <div className="col-md-2 mb-3">
             <label>Nº variação<span className='required_field'> *</span></label>
             <input 
               type="text" 
@@ -116,16 +118,17 @@ const PersonBankData = (props) => {
               onBlur=''
               required  
               placeholder=''
+              maxLength={3}
               />
             <div className="invalid-feedback">
               { formStatus.number_wallet_variation.erro } 
             </div>
-          </div>          
+          </div>                                     
         </div>
-        <div  style={{color: 'gray'}}> Dados para os títulos</div>
+        <div  className="complementary_data"> Dados complementares</div>
         <div className="row">          
-          <div className="col-md-3 mb-3">
-            <label>Descricao tipo do Titulo<span className='required_field'> *</span></label>
+          <div className="col-md-2 mb-3">
+            <label>Descricao tipo<span className='required_field'> *</span></label>
             <input 
               type="text" 
               className={formStatus.description_type_title.validate} 
@@ -141,8 +144,8 @@ const PersonBankData = (props) => {
               { formStatus.description_type_title.erro } 
             </div>
           </div>
-          <div className="col-md-3 mb-3">
-            <label>Nº dias limite recebimento do título<span className='required_field'> *</span></label>
+          <div className="col-md-2 mb-3">
+            <label>Nº dias limite<span className='required_field'> *</span></label>
             <input 
               type="text" 
               className={formStatus.number_receipt_limit_days.validate} 
@@ -172,31 +175,33 @@ const PersonBankData = (props) => {
               placeholder=''
             >
               <option value=''></option>
-              <option value='Sem multa'>Sem multa</option>
-              <option value='Valor fixo R$'>Valor fixo R$</option>
-              <option value='Percentual %'>Percentual %</option>
+              <option value={0}>Sem multa</option>
+              <option value={1}>Valor fixo R$</option>
+              <option value={2}>Percentual %</option>
             </select>
             <div className="invalid-feedback">
               { formStatus.type_multa.erro } 
             </div>
           </div>
-          <div className="col-md-2 mb-3">
-            <label>Valor<span className='required_field'> *</span></label>
-            <input 
-              type="text" 
-              className={formStatus.multa_value.validate} 
-              id="multa_value"
-              name="multa_value" 
-              value={ props.customer.multa_value }
-              onChange={ handleChange }
-              onBlur=''
-              required  
-              placeholder=''
-              />
-            <div className="invalid-feedback">
-              { formStatus.multa_value.erro } 
-            </div>
-          </div>
+          {
+            props.customer.type_multa !== '0' ? <div className="col-md-2 mb-3">
+              <label>Valor<span className='required_field'> *</span></label>
+              <input 
+                type="text" 
+                className={formStatus.multa_value.validate} 
+                id="multa_value"
+                name="multa_value" 
+                value={ props.customer.multa_value }
+                onChange={ handleChange }
+                onBlur=''
+                required  
+                placeholder=''
+                />
+              <div className="invalid-feedback">
+                { formStatus.multa_value.erro } 
+              </div>
+            </div> : ''
+          }          
           <div className="col-md-2 mb-3">
             <label>Tipo de juros<span className='required_field'> *</span></label>
             <select 
@@ -211,32 +216,79 @@ const PersonBankData = (props) => {
               placeholder=''
             >
               <option value=''></option>
-              <option value='Sem juros'>Sem juros</option>
-              <option value='Valor por dia R$'>Valor fixo R$</option>
-              <option value='Taxa mensal %'>Taxa mensal %</option>
+              <option value={0}>Sem juros</option>
+              <option value={1}>Fixo por dia R$</option>
+              <option value={2}>Taxa mensal %</option>
+              <option value={3}>Isento</option>
             </select>
             <div className="invalid-feedback">
               { formStatus.type_juros.erro } 
             </div>
           </div>
-          <div className="col-md-2 mb-3">
-            <label>Valor<span className='required_field'> *</span></label>
-            <input 
+          {
+            props.customer.type_juros !== '0' ? <div className="col-md-2 mb-3">
+              <label>Valor<span className='required_field'> *</span></label>
+              <input 
+                type="text" 
+                className={formStatus.juros_value.validate} 
+                id="juros_value"
+                name="juros_value" 
+                value={ props.customer.juros_value }
+                onChange={ handleChange }
+                onBlur={() =>{ console.log(props.customer) } }
+                required  
+                placeholder=''
+                />
+              <div className="invalid-feedback">
+                { formStatus.juros_value.erro } 
+              </div>
+            </div> : ''
+          }
+          
+        </div>  
+        <div className="row">
+        <div className="col-md-2 mb-3">
+            <label>Indicador Pix<span className='required_field'> *</span></label>
+            <select 
               type="text" 
-              className={formStatus.juros_value.validate} 
-              id="juros_value"
-              name="juros_value" 
-              value={ props.customer.juros_value }
+              className={formStatus.pix_indicator.validate} 
+              id="pix_indicator"
+              name="pix_indicator" 
+              value={ props.customer.pix_indicator }
               onChange={ handleChange }
               onBlur=''
               required  
               placeholder=''
-              />
+            >
+              <option value=''></option>
+              <option value='Sim'>Sim</option>
+              <option value='Não'>Não</option>
+            </select>
             <div className="invalid-feedback">
-              { formStatus.juros_value.erro } 
+              { formStatus.pix_indicator.erro } 
             </div>
           </div>
-        </div>  
+          {
+            props.customer.pix_indicator === 'Sim' ? <div className="col-md-4 mb-3">
+              <label>Pix beneficiário<span className='required_field'> *</span></label>
+              <input 
+                type="text" 
+                className={formStatus.text_email_address.validate} 
+                id="text_email_address"
+                name="text_email_address" 
+                value={ props.customer.text_email_address }
+                onChange={ handleChange }
+                onBlur={() =>{ console.log(props.customer) } }
+                required  
+                placeholder=''
+              />
+              <div className="invalid-feedback">
+                { formStatus.text_email_address.erro } 
+              </div>
+            </div> : ''
+          }
+          
+        </div>
       </>
     )
 

@@ -22,6 +22,8 @@ export const CustomerContextProvider = (props) => {
         multa_value: dataDefault,
         type_juros: dataDefault,
         juros_value: dataDefault,
+        pix_indicator: dataDefault,
+        text_email_address: dataDefault,
         name_application_bb: dataDefault,
         id_application_bb: dataDefault,
         developer_application_key: dataDefault,
