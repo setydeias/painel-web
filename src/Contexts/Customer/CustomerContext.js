@@ -9,21 +9,7 @@ export const CustomerContextProvider = (props) => {
         validate: 'form-control'
     } 
     
-    const statusFormDefault =  {
-        bank: dataDefault,
-        bank_agency: dataDefault,
-        bank_number_account: dataDefault,
-        number_convenio: dataDefault,
-        number_wallet: dataDefault,
-        number_wallet_variation: dataDefault,
-        number_receipt_limit_days: dataDefault,
-        description_type_title: dataDefault,
-        type_multa: dataDefault,
-        multa_value: dataDefault,
-        type_juros: dataDefault,
-        juros_value: dataDefault,
-        pix_indicator: dataDefault,
-        text_email_address: dataDefault,
+    const statusFormDefault =  {       
         name_application_bb: dataDefault,
         id_application_bb: dataDefault,
         developer_application_key: dataDefault,
@@ -58,7 +44,21 @@ export const CustomerContextProvider = (props) => {
         email2: dataDefault,
         site: dataDefault,
         facebook: dataDefault,
-        instagram: dataDefault
+        instagram: dataDefault,
+        bank: dataDefault,
+        bank_agency: dataDefault,
+        bank_number_account: dataDefault,
+        number_convenio: dataDefault,
+        number_wallet: dataDefault,
+        number_wallet_variation: dataDefault,
+        number_receipt_limit_days: dataDefault,
+        description_type_title: dataDefault,
+        type_multa: dataDefault,
+        multa_value: dataDefault,
+        type_juros_mora: dataDefault,
+        juros_mora_value: dataDefault,
+        pix_indicator: dataDefault,
+        text_email_address: dataDefault,
     }
     
     const [formStatus, setFormStatus] = useState(()=>statusFormDefault);

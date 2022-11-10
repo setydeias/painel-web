@@ -27,21 +27,7 @@ const RegisterCostumer = (props) => {
 
 
     const customerDefault = {
-        id: '',
-        bank: '',
-        bank_agency: '',
-        bank_number_account: '',
-        number_convenio: '',
-        number_wallet: '17',
-        number_receipt_limit_days: 29,
-        number_wallet_variation: '',
-        description_type_title: 'RC - Recibo',
-        type_multa: '',
-        multa_value: '',
-        type_juros: '',
-        juros_value: '',
-        pix_indicator: 'Sim',
-        text_email_address: '',
+        id: '',        
         name_application_bb: null,
         id_application_bb: null,
         developer_application_key: null,
@@ -79,7 +65,21 @@ const RegisterCostumer = (props) => {
         facebook: null,
         instagram: null,
         notes: '', 
-        access_key: null
+        access_key: null,
+        bank: '',
+        bank_agency: '',
+        bank_number_account: '',
+        number_convenio: '',
+        number_wallet: '17',
+        number_receipt_limit_days: 29,
+        number_wallet_variation: '',
+        description_type_title: 'RC - Recibo',
+        type_multa: 2,
+        multa_value: 2.00,
+        type_juros_mora: 2,
+        juros_mora_value: 1.00,
+        pix_indicator: 'S',
+        text_email_address: null,
     }
 
     const [clientForDocumentExists, setclientForDocumentExists] = useState(customerDefault);
@@ -239,7 +239,7 @@ const RegisterCostumer = (props) => {
 
       } catch (error) {
 
-        if(!error.response.data.message === 'Documento informado não cadastrdo.') {
+        if(!error.response.data.message === 'Documento informado não cadastrado.') {
           setModal({
             ...modal,
             modal: true,

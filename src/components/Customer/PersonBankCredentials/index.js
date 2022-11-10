@@ -24,7 +24,7 @@ const PersonBankCredentials = (props) => {
               value={ props.customer.id_application_bb }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder='Para o suporte junto ao BB'
               />
             <div className="invalid-feedback">
@@ -41,7 +41,7 @@ const PersonBankCredentials = (props) => {
               value={ props.customer.name_application_bb }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder='Nome da aplicação pp.developers.bb'
               />
             <div className="invalid-feedback">
@@ -58,7 +58,7 @@ const PersonBankCredentials = (props) => {
               value={ props.customer.developer_application_key }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder='É a credencial para acionar as APIS do BB'
               />
             <div className="invalid-feedback">
@@ -77,7 +77,7 @@ const PersonBankCredentials = (props) => {
               value={ props.customer.client_id }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder='É o identificador público e único no OAuth do Banco do Brasil.'
               />
             <div className="invalid-feedback">
@@ -96,7 +96,7 @@ const PersonBankCredentials = (props) => {
               value={ props.customer.client_secret }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder='É conhecido apenas para sua aplicação e o servidor de autorização.'
               />
             <div className="invalid-feedback">
@@ -115,7 +115,7 @@ const PersonBankCredentials = (props) => {
               value={ props.customer.basic_copy }
               onChange={ handleChange }
               onBlur={() => { console.log(props.customer) }}
-              required  
+              //required  
               placeholder='É conhecido apenas para sua aplicação e o servidor de autorização.'
               />
             <div className="invalid-feedback">

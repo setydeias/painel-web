@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import './style.css';
 import { CustomerContext } from "../../../Contexts/Customer/CustomerContext";
+import { maskMoney2 } from "../../../utilities/masks";
 
 const PersonBankData = (props) => {
     const { formStatus, setFormStatus } = useContext(CustomerContext);
@@ -10,6 +11,12 @@ const PersonBankData = (props) => {
       props.setCustomer({ ...props.customer, [name]: value });
     };
 
+    const handleChangeMaskMoney = (e) => {
+      e.preventDefault();
+      maskMoney2(e);
+      props.setCustomer({ ...props.customer, [e.target.name]: e.target.value });
+    };
+    
 
 
     return(
@@ -25,7 +32,7 @@ const PersonBankData = (props) => {
               value={ props.customer.bank }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
             >
               <option value=''></option>
@@ -45,7 +52,7 @@ const PersonBankData = (props) => {
               value={ props.customer.bank_agency }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               maxLength={8}
               />
@@ -63,7 +70,7 @@ const PersonBankData = (props) => {
               value={ props.customer.bank_number_account }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               maxLength={12}
               />
@@ -81,7 +88,7 @@ const PersonBankData = (props) => {
               value={ props.customer.number_convenio }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               maxLength={7}
               />
@@ -99,7 +106,7 @@ const PersonBankData = (props) => {
               value={ props.customer.number_wallet }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               />
             <div className="invalid-feedback">
@@ -116,7 +123,7 @@ const PersonBankData = (props) => {
               value={ props.customer.number_wallet_variation }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               maxLength={3}
               />
@@ -137,7 +144,7 @@ const PersonBankData = (props) => {
               value={ props.customer.description_type_title }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               />
             <div className="invalid-feedback">
@@ -154,7 +161,7 @@ const PersonBankData = (props) => {
               value={ props.customer.number_receipt_limit_days }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
               />
             <div className="invalid-feedback">
@@ -171,7 +178,7 @@ const PersonBankData = (props) => {
               value={ props.customer.type_multa }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
             >
               <option value=''></option>
@@ -191,10 +198,10 @@ const PersonBankData = (props) => {
                 className={formStatus.multa_value.validate} 
                 id="multa_value"
                 name="multa_value" 
-                value={ props.customer.multa_value }
-                onChange={ handleChange }
+                value={ props.customer.multa_value.toLocaleString('pt-br', {minimumFractionDigits: 2}) }
+                onChange={ handleChangeMaskMoney }
                 onBlur=''
-                required  
+                //required  
                 placeholder=''
                 />
               <div className="invalid-feedback">
@@ -206,13 +213,13 @@ const PersonBankData = (props) => {
             <label>Tipo de juros<span className='required_field'> *</span></label>
             <select 
               type="text" 
-              className={formStatus.type_juros.validate} 
-              id="type_juros"
-              name="type_juros" 
-              value={ props.customer.type_juros }
+              className={formStatus.type_juros_mora.validate} 
+              id="type_juros_mora"
+              name="type_juros_mora" 
+              value={ props.customer.type_juros_mora }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
             >
               <option value=''></option>
@@ -222,25 +229,25 @@ const PersonBankData = (props) => {
               <option value={3}>Isento</option>
             </select>
             <div className="invalid-feedback">
-              { formStatus.type_juros.erro } 
+              { formStatus.type_juros_mora.erro } 
             </div>
           </div>
           {
-            props.customer.type_juros !== '0' ? <div className="col-md-2 mb-3">
+            props.customer.type_juros_mora !== '0' ? <div className="col-md-2 mb-3">
               <label>Valor<span className='required_field'> *</span></label>
               <input 
                 type="text" 
-                className={formStatus.juros_value.validate} 
-                id="juros_value"
-                name="juros_value" 
-                value={ props.customer.juros_value }
-                onChange={ handleChange }
+                className={formStatus.juros_mora_value.validate} 
+                id="juros_mora_value"
+                name="juros_mora_value" 
+                value={ props.customer.juros_mora_value.toLocaleString('pt-br', {minimumFractionDigits: 2}) }
+                onChange={ handleChangeMaskMoney }
                 onBlur={() =>{ console.log(props.customer) } }
-                required  
+                //required  
                 placeholder=''
                 />
               <div className="invalid-feedback">
-                { formStatus.juros_value.erro } 
+                { formStatus.juros_mora_value.erro } 
               </div>
             </div> : ''
           }
@@ -257,19 +264,19 @@ const PersonBankData = (props) => {
               value={ props.customer.pix_indicator }
               onChange={ handleChange }
               onBlur=''
-              required  
+              //required  
               placeholder=''
             >
               <option value=''></option>
-              <option value='Sim'>Sim</option>
-              <option value='Não'>Não</option>
+              <option value='S'>Sim</option>
+              <option value='N'>Não</option>
             </select>
             <div className="invalid-feedback">
               { formStatus.pix_indicator.erro } 
             </div>
           </div>
           {
-            props.customer.pix_indicator === 'Sim' ? <div className="col-md-4 mb-3">
+            props.customer.pix_indicator === 'S' ? <div className="col-md-4 mb-3">
               <label>Pix beneficiário<span className='required_field'> *</span></label>
               <input 
                 type="text" 
@@ -279,7 +286,7 @@ const PersonBankData = (props) => {
                 value={ props.customer.text_email_address }
                 onChange={ handleChange }
                 onBlur={() =>{ console.log(props.customer) } }
-                required  
+                //required  
                 placeholder=''
               />
               <div className="invalid-feedback">
