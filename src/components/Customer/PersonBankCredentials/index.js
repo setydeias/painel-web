@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { CustomerContext } from "../../../Contexts/Customer/CustomerContext";
+import { isNumber } from "../../../utilities/Utilities";
 
 const PersonBankCredentials = (props) => {
     const { formStatus, setFormStatus } = useContext(CustomerContext);
@@ -9,30 +10,34 @@ const PersonBankCredentials = (props) => {
       props.setCustomer({ ...props.customer, [name]: value });
     };
 
-
+    const handleChangeNumber = (e) => {
+      const { name, value } = e.target;
+      props.setCustomer({ ...props.customer, [name]: isNumber(value) });
+    };
 
     return(
       <>
         <div className="row">
         <div className="col-md-3 mb-3">
-            <label>Id da aplicação<span className='required_field'> *</span></label>
+            <label>Id da aplicação</label>
             <input 
               type="text" 
               className={formStatus.id_application_bb.validate} 
               id="id_application_bb"
               name="id_application_bb" 
               value={ props.customer.id_application_bb }
-              onChange={ handleChange }
+              onChange={ handleChangeNumber }
               onBlur=''
               //required  
               placeholder='Para o suporte junto ao BB'
+              maxLength={20}
               />
             <div className="invalid-feedback">
               { formStatus.id_application_bb.erro } 
             </div>
           </div>
           <div className="col-md-3 mb-3">
-            <label>Noma da aplicação<span className='required_field'> *</span></label>
+            <label>Noma da aplicação</label>
             <input 
               type="text" 
               className={formStatus.name_application_bb.validate} 
@@ -49,7 +54,7 @@ const PersonBankCredentials = (props) => {
             </div>
           </div>
           <div className="col-md-6 mb-3">
-            <label>Credencial<span className='required_field'> *</span></label>
+            <label>Credencial</label>
             <input 
               type="text" 
               className={formStatus.developer_application_key.validate} 
@@ -68,7 +73,7 @@ const PersonBankCredentials = (props) => {
         </div>
         <div className="row">          
           <div className="col-md-12 mb-3">
-            <label>Credencial OAuth<span className='required_field'> *</span></label>
+            <label>Credencial OAuth</label>
             <input 
               type="text" 
               className={formStatus.client_id.validate} 
@@ -87,7 +92,7 @@ const PersonBankCredentials = (props) => {
         </div>
         <div className="row">  
           <div className="col-md-12 mb-3">
-            <label>Credencial secreta<span className='required_field'> *</span></label>
+            <label>Credencial secreta</label>
             <textarea 
               type="text" 
               className={formStatus.client_secret.validate} 
@@ -106,7 +111,7 @@ const PersonBankCredentials = (props) => {
         </div>
         <div className="row">  
           <div className="col-md-12 mb-3">
-            <label>Cópia básica<span className='required_field'> *</span></label>
+            <label>Cópia básica</label>
             <textarea 
               type="text" 
               className={formStatus.basic_copy.validate} 

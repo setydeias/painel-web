@@ -287,3 +287,9 @@ export function startSessionTime (duration, display, test) {
   }*/
 
 }
+
+export function isNumber(value) {
+  value = value.replace(/[^\d]+/g,'');
+
+  return value;
+}
