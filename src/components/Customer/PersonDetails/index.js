@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.css';
 import { 
   setMaskCPF, 
@@ -11,10 +11,24 @@ import { formatDateForType } from '../../../utilities/Utilities';
 
 const PersonDetails = ({data}) => {
 
+  const [databaseIcon, setDatabaseIcon] = useState(true);
+
   return(
   <form>
-    <div className="row g-3">      
-      <h5><i className="fas fa-user-alt text-muted"></i> {data.description}</h5>
+    <div className="row g-1"> 
+      <div className='d-flex justify-content-between'>
+        <h5><i className="fas fa-user-alt text-muted"></i> {data.description}</h5>
+        <div className="btn btn-light d-flex justify-content-between text-muted">
+          {
+            databaseIcon === true ? 
+              <span>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+                Criando... 
+              </span> : 
+              <i className="fas fa-database"> +Base</i>
+          }
+        </div> 
+      </div>
     </div>    
     <div className="row g-3">
       <div className="col-auto">

@@ -320,7 +320,7 @@ const PersonBankData = (props) => {
                 name="text_email_address" 
                 value={ props.customer.text_email_address }
                 onChange={ handleChangeEmail }
-                //onBlur={ testEmail }
+                onBlur={ testEmail }
                 //required  
                 placeholder=''
               />
