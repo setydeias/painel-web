@@ -1,8 +1,14 @@
 import axios from 'axios';
 import Config from '../../globals/CompanySettings';
 
-export const createDatabase = async (data) => {
-    const response = await axios.get(`${Config.config.api_endpoint}database/create`, data);
+
+export const createTableCleinte = async (id) => {
+    const response = await axios.get(`${Config.config.api_endpoint}database/create/table/client/${id}`);
+    return response;
+}
+
+export const createDatabase = async (database_name) => {
+    const response = await axios.get(`${Config.config.api_endpoint}database/create/${database_name}`);
     return response;
 }
 

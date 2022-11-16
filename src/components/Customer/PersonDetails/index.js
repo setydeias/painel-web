@@ -5,29 +5,126 @@ import {
   setMaskCNPJ,
   setMaskTelefone,
   setMaskCep,
-  setMaskCnae
 } from '../../../utilities/masks';
-import { formatDateForType } from '../../../utilities/Utilities';
+import { formatDateForType } from '../../../utilities/Utilities'; 
+import { createDatabase, createTableCleinte } from '../../../api/Clients/Clientes';
 
-const PersonDetails = ({data}) => {
+const PersonDetails = ({ data }) => {
 
-  const [databaseIcon, setDatabaseIcon] = useState(true);
+
+  const databaseStatusDefault = {
+      buttonDescription: ' + Base',
+      iconSpinner: false
+  } 
+
+  const [databaseActions, setDatabaseActions] = useState(databaseStatusDefault);
+
+
+  const btnCreateDatabase = (e) => {
+
+    e.preventDefault();
+    document.getElementById('btn_database').disabled = true;
+    createTable();
+  }
+
+  const createDatabaseCustomer = async () => { 
+
+    try {
+      
+      setDatabaseActions({ 
+        ...databaseActions,  
+        buttonDescription: ' Criando...',      
+        iconSpinner: true,
+      });
+
+      const response = await createDatabase(data.id);
+
+      if (response.status === 201) {
+        setDatabaseActions({
+          ...databaseActions,
+          buttonDescription: ' Crianda',
+          iconSpinner: false,  
+        })
+        return;        
+      }
+
+      setDatabaseActions({
+        ...databaseActions,
+        buttonDescription: ' + Base',
+        iconSpinner: false,  
+      })
+
+      alert(response.erro.mensagem);
+
+    } catch (error) {
+      console.log(error);
+      document.getElementById('btn_database').disabled = false;
+    }
+
+  }
+
+  const createTable = async () => { 
+
+    try {
+      
+      setDatabaseActions({ 
+        ...databaseActions,  
+        buttonDescription: ' Criando...',      
+        iconSpinner: true,
+      });
+
+      console.log(data.id)
+      const response = await createTableCleinte(data.id);
+      
+      if (response.status === 201) {
+        setDatabaseActions({
+          ...databaseActions,
+          buttonDescription: ' Crianda',
+          iconSpinner: false,  
+        })
+        return;        
+      }
+
+      setDatabaseActions({
+        ...databaseActions,
+        buttonDescription: ' + Base',
+        iconSpinner: false,  
+      })
+
+      alert(response.erro.mensagem);
+
+    } catch (error) {
+      console.log(error);
+      document.getElementById('btn_database').disabled = false;
+    }
+
+  }
+
 
   return(
   <form>
     <div className="row g-1"> 
       <div className='d-flex justify-content-between'>
         <h5><i className="fas fa-user-alt text-muted"></i> {data.description}</h5>
-        <div className="btn btn-light d-flex justify-content-between text-muted">
+        <button
+          className='btn btn-light d-flex justify-content-between text-muted'
+          id='btn_database'
+          name='btn_database'
+          onClick={ btnCreateDatabase }
+        >
           {
-            databaseIcon === true ? 
+            databaseActions.iconSpinner === true ? 
               <span>
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-                Criando... 
-              </span> : 
-              <i className="fas fa-database"> +Base</i>
+                  { databaseActions.buttonDescription } 
+                </span>
+              : 
+              <span>
+                <i className="fas fa-database"> </i>
+                { databaseActions.buttonDescription }
+              </span>
           }
-        </div> 
+        </button> 
       </div>
     </div>    
     <div className="row g-3">
