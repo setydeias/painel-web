@@ -40,6 +40,19 @@ export const updateCustomer = async (data) => {
     return response;
 }
 
+export const updateDatatableCreated = async (data) => {
+
+    console.log(data)
+
+    const response = await axios.patch(`${Config.config.api_endpoint}clients/update/database_created`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+
+    return response;
+}
+
 export const deleteCustomer = async (id) => {
    
     const response = await axios.delete(`${Config.config.api_endpoint}clients/delete/${id}`, {

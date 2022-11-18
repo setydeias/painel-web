@@ -3,7 +3,7 @@ import './style.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PersonDetails from '../../Customer/PersonDetails';
 
-const ModalActions = ({ modal, toggle, change, remove, data, textOption, setTextOption }) => {
+const ModalActions = ({ modal, toggle, change, remove, data, textOption, setTextOption, setCustomerChanger }) => {
   
   const toggleTextOption = () => setTextOption(!textOption);
 
@@ -12,7 +12,7 @@ const ModalActions = ({ modal, toggle, change, remove, data, textOption, setText
       <Modal isOpen={modal.modal} toggle={toggle} className="modal-dialog">
         <ModalHeader toggle={toggle}>{modal.titulo}Detalhes</ModalHeader>
         <ModalBody>
-          <PersonDetails data={data} />
+          <PersonDetails data={data} setCustomerChanger={setCustomerChanger} />
         </ModalBody>
         <ModalFooter>           
             { !textOption ? 

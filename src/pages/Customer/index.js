@@ -579,6 +579,7 @@ const Customer = () => {
         change={change}
         remove={removeCustomer}
         data={customer_changer}
+        setCustomerChanger={setCustomerChanger}
         textOption={textOption}
         setTextOption={setTextOption}
         />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './style.css';
 import { 
   setMaskCPF, 
@@ -7,10 +7,10 @@ import {
   setMaskCep,
 } from '../../../utilities/masks';
 import { formatDateForType } from '../../../utilities/Utilities'; 
-import { createDatabase, createTableCleinte } from '../../../api/Clients/Clientes';
+import { createDatabase, createTableCleinte, updateDatatableCreated } from '../../../api/Clients/Clientes';
 
-const PersonDetails = ({ data }) => {
 
+const PersonDetails = ({ data, setCustomerChanger }) => {
 
   const databaseStatusDefault = {
       buttonDescription: ' + Base',
@@ -24,7 +24,7 @@ const PersonDetails = ({ data }) => {
 
     e.preventDefault();
     document.getElementById('btn_database').disabled = true;
-    createTable();
+    setDatabaseCreated(1);
   }
 
   const createDatabaseCustomer = async () => { 
@@ -40,21 +40,8 @@ const PersonDetails = ({ data }) => {
       const response = await createDatabase(data.id);
 
       if (response.status === 201) {
-        setDatabaseActions({
-          ...databaseActions,
-          buttonDescription: ' Crianda',
-          iconSpinner: false,  
-        })
-        return;        
+        createTable();
       }
-
-      setDatabaseActions({
-        ...databaseActions,
-        buttonDescription: ' + Base',
-        iconSpinner: false,  
-      })
-
-      alert(response.erro.mensagem);
 
     } catch (error) {
       console.log(error);
@@ -64,41 +51,62 @@ const PersonDetails = ({ data }) => {
   }
 
   const createTable = async () => { 
-
+    
     try {
-      
-      setDatabaseActions({ 
-        ...databaseActions,  
-        buttonDescription: ' Criando...',      
-        iconSpinner: true,
-      });
 
-      console.log(data.id)
       const response = await createTableCleinte(data.id);
-      
       if (response.status === 201) {
         setDatabaseActions({
           ...databaseActions,
           buttonDescription: ' Crianda',
           iconSpinner: false,  
+        })       
+      }else {
+        setDatabaseActions({
+          ...databaseActions,
+          buttonDescription: ' + Base',
+          iconSpinner: false,  
         })
-        return;        
-      }
+      }      
+    } catch (error) {
+      alert(error.response.data.message)
+    }
+  }
 
+  const setDatabaseCreated = async (value) => { 
+    
+    try {
+      const response = await updateDatatableCreated({id: data.id, database_created: value});
+      if (response.status === 202) {
+        setCustomerChanger((prevent) => ({ ...prevent, database_created: value }) )
+        createDatabaseCustomer();      
+      }
+    } catch (error) {
+      alert(error.response.data.message)
+    }    
+  }
+
+
+  useEffect(()=>{
+
+    console.log(data.database_created);
+
+    if (data.database_created === 1 ) {
+      document.getElementById('btn_database').disabled = true;
+      setDatabaseActions({
+        ...databaseActions,
+        buttonDescription: ' Crianda',
+        iconSpinner: false,  
+      })
+    }else {
+      document.getElementById('btn_database').disabled = false;
       setDatabaseActions({
         ...databaseActions,
         buttonDescription: ' + Base',
         iconSpinner: false,  
       })
-
-      alert(response.erro.mensagem);
-
-    } catch (error) {
-      console.log(error);
-      document.getElementById('btn_database').disabled = false;
     }
-
-  }
+  }, [])
 
 
   return(

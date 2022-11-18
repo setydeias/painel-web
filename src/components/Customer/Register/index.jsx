@@ -80,6 +80,7 @@ const RegisterCostumer = (props) => {
         juros_mora_value: 1.00,
         pix_indicator: 'S',
         text_email_address: null,
+        database_created: 0,
     }
 
     const [clientForDocumentExists, setclientForDocumentExists] = useState(customerDefault);
