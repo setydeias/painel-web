@@ -3,12 +3,22 @@ import Config from '../../globals/CompanySettings';
 
 
 export const createTableCleinte = async (id) => {
-    const response = await axios.get(`${Config.config.api_endpoint}database/create/table/client/${id}`);
+    const response = await axios.get(`${Config.config.api_endpoint}database/create/table/client/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+
     return response;
 }
 
 export const createDatabase = async (database_name) => {
-    const response = await axios.get(`${Config.config.api_endpoint}database/create/${database_name}`);
+    const response = await axios.get(`${Config.config.api_endpoint}database/create/${database_name}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+    
     return response;
 }
 
