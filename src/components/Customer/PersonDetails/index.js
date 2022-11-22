@@ -7,7 +7,15 @@ import {
   setMaskCep,
 } from '../../../utilities/masks';
 import { formatDateForType } from '../../../utilities/Utilities'; 
-import { createDatabase, createTableCleinte, updateDatatableCreated } from '../../../api/Clients/Clientes';
+import { 
+  createDatabase,
+  dropDatabase,
+  createTableUserCleint,
+  insertTableUserCleint, 
+  createTableBeneficiarieCleint, 
+  updateDatatableCreated,
+  insertTableBeneficiarieCleinte
+} from '../../../api/Clients/Clientes';
 
 
 const PersonDetails = ({ data, setCustomerChanger }) => {
@@ -24,7 +32,7 @@ const PersonDetails = ({ data, setCustomerChanger }) => {
 
     e.preventDefault();
     document.getElementById('btn_database').disabled = true;
-    setDatabaseCreated(1);
+    createDatabaseCustomer();
   }
 
   const createDatabaseCustomer = async () => { 
@@ -40,62 +48,84 @@ const PersonDetails = ({ data, setCustomerChanger }) => {
       const response = await createDatabase(data.id);
 
       if (response.status === 201) {
-        createTable();
+        if(
+          creteTableUser() &&
+          insertTableUser() &&
+          createTableBeneficiarie() &&
+          insertTableBeneficiarie() &&
+          setDatabaseCreated(1)
+        ){
+          setDatabaseActions({
+            ...databaseActions,
+            buttonDescription: ' Criada',
+            iconSpinner: false,  
+          })
+        }else{
+          setDatabaseActions({
+            ...databaseActions,
+            buttonDescription: ' + Base',
+            iconSpinner: false,  
+          })
+        }
       }
 
     } catch (error) {
-      console.log(error);
+      alert(error);
       document.getElementById('btn_database').disabled = false;
     }
 
   }
 
-  const createTable = async () => { 
-    
-    try {
-
-      const response = await createTableCleinte(data.id);
-      if (response.status === 201) {
-        setDatabaseActions({
-          ...databaseActions,
-          buttonDescription: ' Crianda',
-          iconSpinner: false,  
-        })       
-      }else {
-        setDatabaseActions({
-          ...databaseActions,
-          buttonDescription: ' + Base',
-          iconSpinner: false,  
-        })
-      }      
-    } catch (error) {
-      alert(error.response.data.message)
+  const creteTableUser = async () => {
+    const response = await createTableUserCleint(data.id);
+    if (response.status === 201) {
+      return true;
     }
+    return false;
+  }
+
+  const insertTableUser = async () => {     
+    const response = await insertTableUserCleint(data.id);
+    if (response.status === 201) {
+      return true;     
+    }
+    return false;
+  }
+
+  const createTableBeneficiarie = async () => { 
+    const response = await createTableBeneficiarieCleint(data);
+    if (response.status === 201) {
+      return true;
+    }
+    return false;  
+  }
+
+  const insertTableBeneficiarie = async () => {     
+    const response = await insertTableBeneficiarieCleinte(data);
+    if (response.status === 201) {
+      return true;     
+    }
+    return false;
   }
 
   const setDatabaseCreated = async (value) => { 
-    
-    try {
-      const response = await updateDatatableCreated({id: data.id, database_created: value});
+    const response = await updateDatatableCreated({id: data.id, database_created: value});
       if (response.status === 202) {
-        setCustomerChanger((prevent) => ({ ...prevent, database_created: value }) )
-        createDatabaseCustomer();      
+        setCustomerChanger((prevent) => ({ ...prevent, database_created: value }));
+        return true;        
       }
-    } catch (error) {
-      alert(error.response.data.message)
-    }    
+      setCustomerChanger((prevent) => ({ ...prevent, database_created: 0 }));
+      return false;    
   }
 
 
   useEffect(()=>{
 
-    console.log(data.database_created);
-
     if (data.database_created === 1 ) {
       document.getElementById('btn_database').disabled = true;
       setDatabaseActions({
         ...databaseActions,
-        buttonDescription: ' Crianda',
+        buttonDescription: ' Criada',
         iconSpinner: false,  
       })
     }else {

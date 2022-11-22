@@ -1,17 +1,6 @@
 import axios from 'axios';
 import Config from '../../globals/CompanySettings';
 
-
-export const createTableCleinte = async (id) => {
-    const response = await axios.get(`${Config.config.api_endpoint}database/create/table/client/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
-
-    return response;
-}
-
 export const createDatabase = async (database_name) => {
     const response = await axios.get(`${Config.config.api_endpoint}database/create/${database_name}`, {
         headers: {
@@ -21,6 +10,57 @@ export const createDatabase = async (database_name) => {
     
     return response;
 }
+
+export const dropDatabase = async (database_name) => {
+    const response = await axios.get(`${Config.config.api_endpoint}database/drop/${database_name}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+    
+    return response;
+}
+
+export const createTableUserCleint = async (id) => {
+    const response = await axios.get(`${Config.config.api_endpoint}database/create/table/user/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+
+    return response;
+}
+
+export const insertTableUserCleint = async (id) => {
+    const response = await axios.post(`${Config.config.api_endpoint}database/insert/table/user_default/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+
+    return response;
+}
+
+export const createTableBeneficiarieCleint = async (data) => {
+    const response = await axios.get(`${Config.config.api_endpoint}database/create/table/client/${data.id}`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+
+    return response;
+}
+
+export const insertTableBeneficiarieCleinte = async (data) => {
+    const response = await axios.post(`${Config.config.api_endpoint}database/insert/table/beneficiarie`, data, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+
+    return response;
+}
+
 
 export const getCustomers =  async () => {
     
